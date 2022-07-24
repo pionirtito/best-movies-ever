@@ -32,7 +32,9 @@ class MoviesGridView extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               var listItem = providedList[index];
               return Container(
-                padding: EdgeInsets.all(4.0),
+                padding: MediaQuery.of(context).size.width < kSsWidth
+                    ? EdgeInsets.all(0.0)
+                    : EdgeInsets.all(4.0),
                 child: Card(
                   clipBehavior: Clip.antiAlias,
                   key: Key('${providedList[index].id}'),
