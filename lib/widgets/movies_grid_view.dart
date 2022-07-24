@@ -68,7 +68,7 @@ class MoviesGridView extends StatelessWidget {
                                   fontSize: MediaQuery.of(context).size.width <
                                           kSsWidth
                                       ? 8
-                                      : 14,
+                                      : 12,
                                   fontWeight: FontWeight.normal),
                             ),
                             // onHover: (v) {},
