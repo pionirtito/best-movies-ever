@@ -59,7 +59,7 @@ class MoviesGridView extends StatelessWidget {
                             style: TextButton.styleFrom(
                               elevation: 5,
                               // backgroundColor: Color.fromARGB(255, 0, 0, 0),
-                              backgroundColor: kColorOrange,
+                              backgroundColor: Colors.red,
                               padding: EdgeInsets.symmetric(
                                   horizontal: 8.0, vertical: 12.0),
                               // primary: Colors.white,
