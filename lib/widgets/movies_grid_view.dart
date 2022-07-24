@@ -19,7 +19,9 @@ class MoviesGridView extends StatelessWidget {
     Provider.of<Movies>(context).moviesList;
     return Center(
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+        padding: MediaQuery.of(context).size.width < kSsWidth
+            ? EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0)
+            : EdgeInsets.all(24.0),
         width: MediaQuery.of(context).size.width < kSsWidth ? null : 500,
         child: GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -56,13 +58,18 @@ class MoviesGridView extends StatelessWidget {
                               elevation: 5,
                               // backgroundColor: Color.fromARGB(255, 0, 0, 0),
                               backgroundColor: kColorOrange,
-                              padding: const EdgeInsets.all(8.0),
-                              primary: Colors.white,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 8.0, vertical: 12.0),
+                              // primary: Colors.white,
 
-                              textStyle: const TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.normal),
+                              textStyle: TextStyle(
+                                  fontSize: MediaQuery.of(context).size.width <
+                                          kSsWidth
+                                      ? 12
+                                      : 16,
+                                  fontWeight: FontWeight.normal),
                             ),
-                            onHover: (v) {},
+                            // onHover: (v) {},
                             onPressed: () {
                               Navigator.pushNamed(
                                 context,

@@ -25,7 +25,9 @@ class MovieDetailsView extends StatelessWidget {
     print(genres);
     return Center(
         child: Container(
-      padding: EdgeInsets.all(4.0),
+      padding: MediaQuery.of(context).size.width < kSsWidth
+          ? EdgeInsets.all(4.0)
+          : EdgeInsets.all(32.0),
       width: MediaQuery.of(context).size.width < kSsWidth ? null : 500,
       child: ListView(
         shrinkWrap: true,
