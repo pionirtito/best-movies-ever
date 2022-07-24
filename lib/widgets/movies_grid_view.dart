@@ -53,7 +53,7 @@ class MoviesGridView extends StatelessWidget {
                         SizedBox(height: 0.0),
                         Container(
                           padding: EdgeInsets.all(8.0),
-                          child: OutlinedButton(
+                          child: TextButton(
                             style: TextButton.styleFrom(
                               elevation: 5,
                               // backgroundColor: Color.fromARGB(255, 0, 0, 0),
