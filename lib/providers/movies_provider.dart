@@ -64,7 +64,7 @@ class Movies with ChangeNotifier {
           // overview: element['overview'],
           // voteAverage: element['vote_average'],
           // voteCount: element['vote_count'],
-          backdropPath: element['poster_path'],
+          backdropPath: element['backdrop_path'],
           popularity: '${element['popularity'].toStringAsFixed(1)}',
         ));
       });
