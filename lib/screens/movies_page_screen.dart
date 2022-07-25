@@ -43,11 +43,14 @@ class _MoviesPageScreenState extends State<MoviesPageScreen> {
         _isInit = false;
       });
     }).catchError((e) {
-      print(e);
-      Navigator.pushReplacement(
-          context, RouteGenerator.errorOnPage('Error: ${e.status}', e.message));
+      print(e.runtimeType);
+      print(e.status);
+      print(e.message);
+      Navigator.pushReplacement(context,
+          RouteGenerator.errorOnPage('Error: ${e.status}', '${e.message}'));
 
       Provider.of<Movies>(context, listen: false).updatePageNum(1);
+      Provider.of<Movies>(context, listen: false).clearMoviesList();
       // setState(() {
       //   _isLoading = true;
       //   _isInit = true;

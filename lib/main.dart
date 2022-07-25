@@ -6,7 +6,11 @@ import 'package:provider/provider.dart';
 
 import 'configs/routes_generator.dart';
 
-void main() {
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+Future<void> main() async {
+  await dotenv.load(fileName: "dotenv");
+  // await dotenv.load();
   runApp(const BestMoviesApp());
 }
 

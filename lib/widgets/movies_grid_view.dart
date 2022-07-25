@@ -8,13 +8,27 @@ import 'package:provider/provider.dart';
 import '../models/movie.dart';
 import '../providers/movies_provider.dart';
 
-class MoviesGridView extends StatelessWidget {
+class MoviesGridView extends StatefulWidget {
   const MoviesGridView({
     Key? key,
   }) : super(key: key);
 
   @override
+  State<MoviesGridView> createState() => _MoviesGridViewState();
+}
+
+class _MoviesGridViewState extends State<MoviesGridView> {
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    int imageWidth = 500;
+    var xxx = 'open';
     List<Movie> providedList = Provider.of<Movies>(context).moviesList;
     Provider.of<Movies>(context).moviesList;
     return Center(
@@ -22,7 +36,11 @@ class MoviesGridView extends StatelessWidget {
         padding: MediaQuery.of(context).size.width < kSsWidth
             ? EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0)
             : EdgeInsets.all(24.0),
-        width: MediaQuery.of(context).size.width < kSsWidth ? null : 500,
+        width: MediaQuery.of(context).size.width < kSsWidth
+            ? null
+            : MediaQuery.of(context).size.width < klsWidth
+                ? 800
+                : 800,
         child: GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
@@ -31,123 +49,135 @@ class MoviesGridView extends StatelessWidget {
             itemCount: providedList.length,
             itemBuilder: (BuildContext context, int index) {
               var listItem = providedList[index];
-              return Container(
-                padding: MediaQuery.of(context).size.width < kSsWidth
-                    ? EdgeInsets.all(0.0)
-                    : EdgeInsets.all(4.0),
-                child: Card(
-                  clipBehavior: Clip.antiAlias,
-                  key: Key('${providedList[index].id}'),
-                  // color: Colors.amber,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: NetworkImage(
-                              'https://image.tmdb.org/t/p/w300/${listItem.backdropPath}'),
-                          fit: BoxFit.cover,
-                          colorFilter:
-                              ColorFilter.mode(Colors.white70, BlendMode.hue)),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      // crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        SizedBox(height: 0.0),
-                        Container(
-                          padding: EdgeInsets.all(8.0),
-                          child: TextButton(
-                            style: TextButton.styleFrom(
-                              elevation: 5,
-                              // backgroundColor: Color.fromARGB(255, 0, 0, 0),
-                              backgroundColor: kColorOrange,
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 8.0, vertical: 12.0),
-                              // primary: Colors.white,
+              return MovieGridItem(
+                  listItem: listItem,
+                  providedList: providedList,
+                  imageWidth: imageWidth);
+            }),
+      ),
+    );
+  }
+}
 
-                              textStyle: TextStyle(
-                                  fontSize: MediaQuery.of(context).size.width <
-                                          kSsWidth
-                                      ? 14
-                                      : 16,
-                                  fontWeight: FontWeight.normal),
-                            ),
-                            // onHover: (v) {},
-                            onPressed: () {
-                              Navigator.pushNamed(
-                                context,
-                                MovieDetailScreen.routeName,
-                                arguments: <String, dynamic>{
-                                  'action': 'details',
-                                  'argId': listItem.id,
-                                  'argTitle': listItem.title
-                                },
-                              );
-                            },
-                            child: Text(
-                              '${listItem.title}',
-                              maxLines: 3,
-                              textAlign: TextAlign.center,
-                              softWrap: false,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
+class MovieGridItem extends StatefulWidget {
+  const MovieGridItem({
+    Key? key,
+    required this.listItem,
+    required this.providedList,
+    required this.imageWidth,
+  }) : super(key: key);
+
+  final Movie listItem;
+  final List<Movie> providedList;
+  final int imageWidth;
+
+  @override
+  State<MovieGridItem> createState() => _MovieGridItemState();
+}
+
+late ColorFilter? colorFilter;
+
+class _MovieGridItemState extends State<MovieGridItem> {
+  @override
+  void initState() {
+    colorFilter = ColorFilter.mode(Colors.white70, BlendMode.hue);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      key: Key('${widget.listItem.id}'),
+      padding: MediaQuery.of(context).size.width < kSsWidth
+          ? EdgeInsets.all(0.0)
+          : EdgeInsets.all(4.0),
+      child: MouseRegion(
+        onEnter: ((event) {
+          setState(() {
+            colorFilter = null;
+          });
+        }),
+        onExit: ((event) {
+          setState(() {
+            colorFilter = ColorFilter.mode(Colors.white70, BlendMode.hue);
+          });
+        }),
+        cursor: SystemMouseCursors.click,
+        child: GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              MovieDetailScreen.routeName,
+              arguments: <String, dynamic>{
+                'action': 'details',
+                'argId': widget.listItem.id,
+                'argTitle': widget.listItem.title
+              },
+            );
+          },
+          child: Card(
+            clipBehavior: Clip.antiAlias,
+            // color: Colors.amber,
+            child: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: NetworkImage(
+                        '$kUrlImage${widget.imageWidth}/${widget.listItem.backdropPath}'),
+                    fit: BoxFit.cover,
+                    colorFilter: colorFilter),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                // crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  // SizedBox(height: 0.0),
+                  Container(
+                    height: 96,
+                    width: double.infinity,
+                    color: Colors.black54,
+                    padding: EdgeInsets.all(8.0),
+                    child: Center(
+                      child: Text(
+                        '${widget.listItem.title}',
+                        maxLines: 3,
+                        textAlign: TextAlign.center,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                  // SizedBox(height: 36.0),
+                  Container(
+                    height: 32,
+                    // width: ,
+                    color: Colors.black54,
+                    padding: EdgeInsets.all(2.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.local_fire_department,
+                          color: Colors.orange,
                         ),
-                        // SizedBox(height: 36.0),
-                        Container(
-                          height: 32,
-                          // width: ,
-                          color: Colors.black54,
-                          padding: EdgeInsets.all(2.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.local_fire_department,
-                                color: Colors.orange,
-                              ),
-                              Text(
-                                '${listItem.popularity}',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.white,
-                                ),
-                              )
-                            ],
+                        Text(
+                          '${widget.listItem.popularity}',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
                           ),
                         )
                       ],
                     ),
-                  ),
-                  // child: Column(children: [
-                  //   Container(
-                  //     decoration: BoxDecoration(
-                  //       image: DecorationImage(
-                  //         image: NetworkImage(
-                  //             'https://image.tmdb.org/t/p/w300/${Provider.of<Movies>(context).moviesList[index].posterPath}'),
-                  //         fit: BoxFit.cover,
-                  //       ),
-                  //     ),
-                  //     child: Text('yo') /* add child content here */,
-                  //   ),
-
-                  //   // ListTile(
-                  //   //   // leading: Icon(Icons.arrow_drop_down_circle),
-                  //   //   title: Text(
-                  //   //       '${Provider.of<Movies>(context).moviesList[index].title}'),
-                  //   //   subtitle: Text(
-                  //   //     'Popularity: ${Provider.of<Movies>(context).moviesList[index].popularity}',
-                  //   //     style: TextStyle(color: Colors.black.withOpacity(0.6)),
-                  //   //   ),
-                  //   // ),
-                  // ],
-
-                  // ),
-                ),
-              );
-            }),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

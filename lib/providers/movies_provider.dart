@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:best_movies_ever/models/response_message.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
+import '../configs/constants.dart';
 import '../models/movie.dart';
 
 /* 
@@ -16,129 +18,116 @@ Takodje, nakon klika na odredjeni film, potrebno je prikazati detalje tog filma 
 
 class Movies with ChangeNotifier {
   bool isLoading = true;
+
+  static final String _apiKey =
+      dotenv.get('API_KEY', fallback: 'API_KEY not found');
+
   int pageNum = 1;
   List _resultsList = [];
   String activeId = '';
   late List<Movie> moviesList = [];
   late int totalPages;
   late int totalResults = 1;
+
   late String url =
-      'https://api.themoviedb.org/3/discover/movie?api_key=$_apiKey&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=$pageNum&with_watch_monetization_types=flatrate';
+      '$kUrlMovies$kUrlSetKey$_apiKey$kUrlPopSort$kUrlAdult$kUrlLang$kUrlVideo$kUrlSetPage$pageNum$kUrlWatch';
 
   late Movie activeMovie;
 
-  static const String _apiKey = '19183c673c06f7774df71e7d448c027b';
   Future<void> getMovies() async {
     final uri = Uri.parse(url);
     print('💚 getMovies url: $url');
 
-    // final url = Uri.parse(
-    //     'https://api.themoviedb.org/3/discover/movie?api_key=$_apiKey&language=en-US&sort_by=popularity.desc');
+    // try {
+    final responseJSON = await http.get(uri);
+    final Map body = jsonDecode(responseJSON.body);
+    int status = responseJSON.statusCode;
+    String message = body['status_message'] ?? kErrorDeafultMSG;
 
-    // /discover/movie?sort_by=popularity.desc
+    ResponseMessage resMsg = ResponseMessage(status: status, reason: message);
 
-    try {
-      final responseJSON = await http.get(uri);
-      var status = responseJSON.statusCode;
-      var message = responseJSON.reasonPhrase;
-
-      ResponseMessage resMsg =
-          ResponseMessage(status: status, message: message);
-
-      if (status != 200) {
-        pageNum = 1;
-        moviesList.clear();
-        print(resMsg);
-        throw (resMsg);
-      }
-
-      final Map body = jsonDecode(responseJSON.body);
-
-      totalPages = body['total_pages'];
-      totalResults = body['total_results'];
-      _resultsList = body['results'];
-      _resultsList.forEach((element) {
-        moviesList.add(Movie(
-          id: element['id'],
-          title: element['title'],
-          // overview: element['overview'],
-          // voteAverage: element['vote_average'],
-          // voteCount: element['vote_count'],
-          backdropPath: element['backdrop_path'],
-          popularity: '${element['popularity'].toStringAsFixed(1)}',
-        ));
-      });
-      // final Map<dynamic, dynamic> extractedData = testData.asMap();
-      // updateMoviesList(moviesList);
-      isLoading = false;
-      // notifyListeners();
-
-      print(status);
-    } catch (e) {
-      pageNum = 1;
-      moviesList.clear();
-      print('⛔ $e');
-      throw (e);
+    if (status != 200) {
+      print('💔💔💔💔');
+      print(resMsg.message);
+      print('💔💔💔💔');
+      throw (resMsg);
     }
+
+    totalPages = body['total_pages'];
+    totalResults = body['total_results'];
+    _resultsList = body['results'];
+    _resultsList.forEach((element) {
+      moviesList.add(Movie(
+        id: element['id'],
+        title: element['title'],
+        backdropPath: element['backdrop_path'],
+        popularity: '${element['popularity'].toStringAsFixed(1)}',
+      ));
+    });
+    // final Map<dynamic, dynamic> extractedData = testData.asMap();
+    isLoading = false;
+    // notifyListeners();
+
+    print(status);
+    print(message);
+    // } catch (e) {
+    //   pageNum = 1;
+    //   moviesList.clear();
+    //   print('⛔⛔ ${e}');
+    //   throw (e);
+    // }
   }
 
   Future<void> getMovieByID(String id) async {
     List resultsList;
     Movie movie;
-    final urlById =
-        'https://api.themoviedb.org/3/movie/$id?api_key=${_apiKey}&language=en-US';
+
+    final urlById = '$kUrlMovie$id$kUrlSetKey${_apiKey}$kUrlLang';
     final uri = Uri.parse(urlById);
     print('💚 getMovie Id:$id Detail');
     print(urlById);
 
-    // final url = Uri.parse(
-    //     'https://api.themoviedb.org/3/discover/movie?api_key=$_apiKey&language=en-US&sort_by=popularity.desc');
+    // try {
+    final responseJSON = await http.get(uri);
+    final Map body = jsonDecode(responseJSON.body);
 
-    // /discover/movie?sort_by=popularity.desc
+    var status = responseJSON.statusCode;
+    String message = body['status_message'] ?? kErrorDeafultMSG;
 
-    try {
-      final responseJSON = await http.get(uri);
-      final Map body = jsonDecode(responseJSON.body);
+    ResponseMessage resMsg = ResponseMessage(status: status, reason: message);
 
-      var status = responseJSON.statusCode;
-      var message = responseJSON.reasonPhrase;
-
-      ResponseMessage resMsg =
-          ResponseMessage(status: status, message: message);
-
-      if (status != 200) {
-        pageNum = 1;
-        moviesList.clear();
-        print(resMsg);
-        throw (resMsg);
-      }
-
-      movie = Movie(
-          id: body['id'],
-          title: body['title'],
-          overview: body['overview'],
-          runtime: body['runtime'],
-          posterPath: 'https://image.tmdb.org/t/p/w500/${body['poster_path']}',
-          voteAverage: '${body['vote_average'].toStringAsFixed(1)}',
-          voteCount: body['vote_count'].toString(),
-          genres: body['genres']);
-
-      print('💚💚');
-      print(movie.runtime);
-
-      // final Map<dynamic, dynamic> extractedData = testData.asMap();
-      // updateMoviesList(moviesList);
-      activeMovie = movie;
-      isLoading = false;
-      // notifyListeners();
-    } catch (e) {
-      pageNum = 1;
-      moviesList.clear();
-      isLoading = true;
-
-      print('⛔ $e');
-      throw (e);
+    if (status != 200) {
+      print('😱😱😱😱');
+      print(body);
+      print('😱😱😱😱');
+      throw (resMsg);
     }
+
+    movie = Movie(
+        id: body['id'],
+        title: body['title'],
+        overview: body['overview'],
+        runtime: body['runtime'],
+        posterPath: 'https://image.tmdb.org/t/p/w500/${body['poster_path']}',
+        voteAverage: '${body['vote_average'].toStringAsFixed(1)}',
+        voteCount: body['vote_count'].toString(),
+        genres: body['genres']);
+
+    print('💚💚');
+    print(movie.runtime);
+
+    // final Map<dynamic, dynamic> extractedData = testData.asMap();
+    activeMovie = movie;
+    isLoading = false;
+    // notifyListeners();
+    // } catch (e) {
+    //   pageNum = 1;
+    //   moviesList.clear();
+    //   isLoading = true;
+
+    //   print('⛔ ${e.toString()}');
+    //   throw (e);
+    // }
   }
 
   updatePageNum(int value) {
@@ -155,8 +144,8 @@ class Movies with ChangeNotifier {
     // notifyListeners();
   }
 
-  updateMoviesList(List<Movie> value) {
-    moviesList = value;
+  clearMoviesList() {
+    moviesList.clear();
     // notifyListeners();
   }
 }

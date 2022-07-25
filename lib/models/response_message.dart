@@ -1,9 +1,11 @@
 class ResponseMessage {
   final int status;
-  final String? message;
+  String reason;
 
   ResponseMessage({
     required this.status,
-    required this.message,
+    this.reason = 'Error',
   });
+
+  String get message => reason.isEmpty ? 'Unknown reason' : reason;
 }
