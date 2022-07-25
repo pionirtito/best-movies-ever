@@ -1,6 +1,5 @@
 # ENV
 *.env
-dotenv
 
 # Miscellaneous
 *.class

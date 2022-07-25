@@ -9,8 +9,7 @@ import 'configs/routes_generator.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> main() async {
-  await dotenv.load(fileName: "dotenv");
-  // await dotenv.load();
+  await dotenv.load();
   runApp(const BestMoviesApp());
 }
 
