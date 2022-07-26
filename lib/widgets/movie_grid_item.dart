@@ -52,11 +52,11 @@ class _MovieGridItemState extends State<MovieGridItem> {
           onTap: () {
             Navigator.pushNamed(
               context,
-              MovieDetailScreen.routeName,
+              '${MovieDetailScreen.routeNameByIDquery}${widget.listItem.id}',
               arguments: <String, dynamic>{
                 'action': 'details',
                 'argId': widget.listItem.id,
-                'argTitle': widget.listItem.title
+                // 'argTitle': widget.listItem.title
               },
             );
           },

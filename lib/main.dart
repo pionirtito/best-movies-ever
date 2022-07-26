@@ -1,6 +1,5 @@
 import 'package:best_movies_ever/configs/constants.dart';
 import 'package:best_movies_ever/providers/movies_provider.dart';
-import 'package:best_movies_ever/screens/movies_page_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,8 +9,16 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'providers/grid_items_provider.dart';
 
+/* 
+
+Napravite aplikaciju koja prikazuje popularne filmove uz pomoc API-a https://www.themoviedb.org/ koristeci kolekciju, gde u jednom redu ima 3 filma. 
+
+Takodje, nakon klika na odredjeni film, potrebno je prikazati detalje tog filma kao sto su ime, deskripcija, slika, ocena i trajanje filma.
+
+ */
+
 Future<void> main() async {
-  // await dotenv.load();
+  // await dotenv.load(); // default for '.env'
   await dotenv.load(fileName: "dotenv");
   runApp(const BestMoviesApp());
 }
@@ -19,16 +26,8 @@ Future<void> main() async {
 class BestMoviesApp extends StatelessWidget {
   const BestMoviesApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // return MaterialApp(
-    //   title: 'The Best Movies Ever',
-    //   theme: ThemeData(
-    //     primarySwatch: Colors.blue,
-    //   ),
-    //   home: MoviesHomePageScreen(),
-    // );
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<Movies>(create: (ctx) => Movies()),
@@ -36,9 +35,10 @@ class BestMoviesApp extends StatelessWidget {
       ],
       child: MaterialApp(
         theme: ThemeData(
+            fontFamily: 'Roboto Mono',
             errorColor: kColorError,
             floatingActionButtonTheme: FloatingActionButtonThemeData(
-                backgroundColor: Colors.black, foregroundColor: kColorOrange),
+                backgroundColor: kColorOrange, foregroundColor: Colors.black),
             primaryColor: kColorTeal,
             scaffoldBackgroundColor: Colors.blueGrey.shade100,
             progressIndicatorTheme:
@@ -47,12 +47,9 @@ class BestMoviesApp extends StatelessWidget {
                 centerTitle: true,
                 backgroundColor: kColorOrange,
                 foregroundColor: Colors.black)),
-        // home: MoviesPageScreen(),
         onGenerateRoute: RouteGenerator.generateRoute,
-        initialRoute: '/',
+        initialRoute: '/', // home: MoviesPageScreen(),
       ),
     );
   }
 }
-
-//API: https://api.themoviedb.org/3/movie/550?api_key=19183c673c06f7774df71e7d448c027b

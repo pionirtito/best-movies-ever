@@ -11,9 +11,10 @@ import '../widgets/movie_details_view.dart';
 import '../widgets/movies_grid_view.dart';
 
 class MovieDetailScreen extends StatefulWidget {
-  MovieDetailScreen({Key? key}) : super(key: key);
-  // static String routeName = '/movie?id='; //INFO: Moze da se napravi dinamicka ruta ali da ne komplikujemo
+  String? paramID;
+  MovieDetailScreen({this.paramID, Key? key}) : super(key: key);
   static String routeName = '/movie-details';
+  static String routeNameByIDquery = '/movie-details?id=';
   @override
   State<MovieDetailScreen> createState() => _MovieDetailScreenState();
 }
@@ -21,14 +22,12 @@ class MovieDetailScreen extends StatefulWidget {
 class _MovieDetailScreenState extends State<MovieDetailScreen> {
   bool _isInit = true;
   bool _isLoading = false;
-  String argId = '?';
+  String argId = '_';
   String argTitle = 'Movie details';
   var list;
 
   @override
   initState() {
-    print('1️⃣ initState from Movie Detail page screen');
-
     super.initState();
   }
 
@@ -39,28 +38,25 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
         _isLoading = true;
       });
     }
-    Map arguments = ModalRoute.of(context)!.settings.arguments as Map;
-    argId = arguments['argId'].toString();
-    argTitle = arguments['argTitle'];
-    print('⚙⚙⚙⚙');
-    print(argId);
+    var argumentsRaw = ModalRoute.of(context)!.settings.arguments;
+    if (argumentsRaw != null) {
+      Map? arguments = ModalRoute.of(context)!.settings.arguments as Map;
+      argId = arguments['argId'].toString();
+    } else {
+      argId = widget.paramID!;
+    }
+
     Provider.of<Movies>(context).getMovieByID(argId).then((_) {
       setState(() {
         _isLoading = false;
         _isInit = false;
       });
     }).catchError((e) {
-      print(e);
       Navigator.pushReplacement(
           context,
           RouteGenerator.errorOnPage('Error: ${e.status}', e.message,
               justPop: false));
     });
-
-    // setState(() {
-    //   _isLoading = Provider.of<Movies>(context, listen: true).isLoading;
-    // });
-    // }
     super.didChangeDependencies();
   }
 
@@ -68,15 +64,26 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: ModalRoute.of(context)!.settings.arguments != null
+            ? IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(Icons.arrow_back_rounded))
+            : IconButton(
+                onPressed: () {
+                  // Navigator.pushReplacementNamed(context, '/');
+                  Navigator.pushNamedAndRemoveUntil(context, "/", (r) => false);
+                },
+                icon: Icon(Icons.home_rounded)),
         title: Text(argTitle),
       ),
       body: Container(
         child: _isLoading
-            ? Center(
+            ? const Center(
                 child: CircularProgressIndicator(),
               )
-            : MovieDetailsView(),
-        // child: Text('v'),
+            : const MovieDetailsView(),
       ),
     );
   }

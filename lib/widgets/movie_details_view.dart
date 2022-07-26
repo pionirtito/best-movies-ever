@@ -77,12 +77,15 @@ class MovieDetailsView extends StatelessWidget {
             ),
           ),
           Card(
-            child: ListTile(
-              leading: Icon(
-                Icons.description,
-                color: Colors.black,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12.0),
+              child: ListTile(
+                leading: Icon(
+                  Icons.description,
+                  color: Colors.black,
+                ),
+                title: Text(movie.overview),
               ),
-              title: Text(movie.overview),
             ),
           )
         ],

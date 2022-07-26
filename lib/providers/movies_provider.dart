@@ -8,17 +8,9 @@ import 'package:http/http.dart' as http;
 import '../configs/constants.dart';
 import '../models/movie.dart';
 
-/* 
-
-Napravi te aplikaciju koja prikazuje popularne filmove uz pomoc API-a https://www.themoviedb.org/ koristeci kolekciju, gde u jednom redu ima 3 filma. 
-
-Takodje, nakon klika na odredjeni film, potrebno je prikazati detalje tog filma kao sto su ime, deskripcija, slika, ocena i trajanje filma.
-
- */
-
 class Movies with ChangeNotifier {
   bool isLoading = true;
-  bool moreButtonOn = false; // ?
+  bool moreButtonOn = false;
   var gridScrollCtrl = ScrollController();
 
   static final String _apiKey =
@@ -38,9 +30,6 @@ class Movies with ChangeNotifier {
 
   Future<void> getMovies() async {
     final uri = Uri.parse(url);
-    print('💚 getMovies url: $url');
-
-    // try {
     final responseJSON = await http.get(uri);
     final Map body = jsonDecode(responseJSON.body);
     int status = responseJSON.statusCode;
@@ -49,9 +38,6 @@ class Movies with ChangeNotifier {
     ResponseMessage resMsg = ResponseMessage(status: status, reason: message);
 
     if (status != 200) {
-      print('💔💔💔💔');
-      print(resMsg.message);
-      print('💔💔💔💔');
       throw (resMsg);
     }
 
@@ -66,30 +52,15 @@ class Movies with ChangeNotifier {
         popularity: '${element['popularity'].toStringAsFixed(1)}',
       ));
     });
-    // final Map<dynamic, dynamic> extractedData = testData.asMap();
     isLoading = false;
-    // notifyListeners();
-
-    print(status);
-    print(message);
-    // } catch (e) {
-    //   pageNum = 1;
-    //   moviesList.clear();
-    //   print('⛔⛔ ${e}');
-    //   throw (e);
-    // }
   }
 
   Future<void> getMovieByID(String id) async {
-    List resultsList;
     Movie movie;
 
-    final urlById = '$kUrlMovie$id$kUrlSetKey${_apiKey}$kUrlLang';
+    final urlById = '$kUrlMovie$id$kUrlSetKey$_apiKey$kUrlLang';
     final uri = Uri.parse(urlById);
-    print('💚 getMovie Id:$id Detail');
-    print(urlById);
 
-    // try {
     final responseJSON = await http.get(uri);
     final Map body = jsonDecode(responseJSON.body);
 
@@ -99,9 +70,6 @@ class Movies with ChangeNotifier {
     ResponseMessage resMsg = ResponseMessage(status: status, reason: message);
 
     if (status != 200) {
-      print('😱😱😱😱');
-      print(body);
-      print('😱😱😱😱');
       throw (resMsg);
     }
 
@@ -115,40 +83,23 @@ class Movies with ChangeNotifier {
         voteCount: body['vote_count'].toString(),
         genres: body['genres']);
 
-    print('💚💚');
-    print(movie.runtime);
-
-    // final Map<dynamic, dynamic> extractedData = testData.asMap();
     activeMovie = movie;
     isLoading = false;
-    // notifyListeners();
-    // } catch (e) {
-    //   pageNum = 1;
-    //   moviesList.clear();
-    //   isLoading = true;
-
-    //   print('⛔ ${e.toString()}');
-    //   throw (e);
-    // }
   }
 
   updatePageNum(int value) {
     pageNum = value;
     url =
-        'https://api.themoviedb.org/3/discover/movie?api_key=$_apiKey&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=$pageNum&with_watch_monetization_types=flatrate';
-    // isLoading = true;
+        '$kUrlMovies$kUrlSetKey$_apiKey$kUrlPopSort$kUrlAdult$kUrlLang$kUrlVideo$kUrlSetPage$pageNum$kUrlWatch';
     notifyListeners();
-    print('page updater');
   }
 
   updateLoading(bool val) {
     isLoading = val;
-    // notifyListeners();
   }
 
   clearMoviesList() {
     moviesList.clear();
-    // notifyListeners();
   }
 
   updateMoreButton(bool val) {
