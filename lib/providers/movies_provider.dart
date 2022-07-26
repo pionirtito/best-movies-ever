@@ -18,6 +18,8 @@ Takodje, nakon klika na odredjeni film, potrebno je prikazati detalje tog filma 
 
 class Movies with ChangeNotifier {
   bool isLoading = true;
+  bool moreButtonOn = false; // ?
+  var gridScrollCtrl = ScrollController();
 
   static final String _apiKey =
       dotenv.get('API_KEY', fallback: 'API_KEY not found');
@@ -147,5 +149,10 @@ class Movies with ChangeNotifier {
   clearMoviesList() {
     moviesList.clear();
     // notifyListeners();
+  }
+
+  updateMoreButton(bool val) {
+    moreButtonOn = val;
+    notifyListeners();
   }
 }

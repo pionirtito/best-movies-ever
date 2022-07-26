@@ -1,5 +1,6 @@
 # ENV
 *.env
+dotenv
 
 # Miscellaneous
 *.class
@@ -48,3 +49,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Local Netlify folder
+.netlify

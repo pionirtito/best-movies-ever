@@ -8,6 +8,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
 
 import '../configs/routes_generator.dart';
+import '../providers/grid_items_provider.dart';
 import '../widgets/movies_grid_view.dart';
 
 class MoviesPageScreen extends StatefulWidget {
@@ -38,6 +39,7 @@ class _MoviesPageScreenState extends State<MoviesPageScreen> {
     }
 
     Provider.of<Movies>(context).getMovies().then((_) {
+      Provider.of<GridItems>(context, listen: false).updateMoreButton(false);
       setState(() {
         _isLoading = false;
         _isInit = false;
@@ -78,6 +80,7 @@ class _MoviesPageScreenState extends State<MoviesPageScreen> {
     return Scaffold(
       // floatingActionButton: _isLoading ? null : Paginator(),
       floatingActionButton: _isLoading ? null : LoadMoreButton(),
+
       appBar: AppBar(
         title: Text('Welcome to the Popular Movies'),
       ),

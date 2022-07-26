@@ -8,8 +8,11 @@ import 'configs/routes_generator.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import 'providers/grid_items_provider.dart';
+
 Future<void> main() async {
-  await dotenv.load();
+  // await dotenv.load();
+  await dotenv.load(fileName: "dotenv");
   runApp(const BestMoviesApp());
 }
 
@@ -27,7 +30,10 @@ class BestMoviesApp extends StatelessWidget {
     //   home: MoviesHomePageScreen(),
     // );
     return MultiProvider(
-      providers: [ChangeNotifierProvider<Movies>(create: (ctx) => Movies())],
+      providers: [
+        ChangeNotifierProvider<Movies>(create: (ctx) => Movies()),
+        ChangeNotifierProvider<GridItems>(create: (ctx) => GridItems())
+      ],
       child: MaterialApp(
         theme: ThemeData(
             errorColor: kColorError,
