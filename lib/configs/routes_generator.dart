@@ -28,7 +28,7 @@ class RouteGenerator {
         //INFO: MOVIE_ID from grid item click
         return PageRouteBuilder(
             settings: settings,
-            pageBuilder: (_, __, ___) => MovieDetailScreen());
+            pageBuilder: (_, __, ___) => const MovieDetailScreen());
       }
     } else {
       return _errorRoute();

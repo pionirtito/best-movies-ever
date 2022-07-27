@@ -9,14 +9,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'providers/grid_items_provider.dart';
 
-/* 
-
-Napravite aplikaciju koja prikazuje popularne filmove uz pomoc API-a https://www.themoviedb.org/ koristeci kolekciju, gde u jednom redu ima 3 filma. 
-
-Takodje, nakon klika na odredjeni film, potrebno je prikazati detalje tog filma kao sto su ime, deskripcija, slika, ocena i trajanje filma.
-
- */
-
 Future<void> main() async {
   // await dotenv.load(); // default for '.env'
   await dotenv.load(fileName: "dotenv");
@@ -37,13 +29,13 @@ class BestMoviesApp extends StatelessWidget {
         theme: ThemeData(
             fontFamily: 'Roboto Mono',
             errorColor: kColorError,
-            floatingActionButtonTheme: FloatingActionButtonThemeData(
+            floatingActionButtonTheme: const FloatingActionButtonThemeData(
                 backgroundColor: kColorOrange, foregroundColor: Colors.black),
-            primaryColor: kColorTeal,
+            primaryColor: kColorDarkTeal,
             scaffoldBackgroundColor: Colors.blueGrey.shade100,
             progressIndicatorTheme:
-                ProgressIndicatorThemeData(color: kColorOrange),
-            appBarTheme: AppBarTheme(
+                const ProgressIndicatorThemeData(color: kColorOrange),
+            appBarTheme: const AppBarTheme(
                 centerTitle: true,
                 backgroundColor: kColorOrange,
                 foregroundColor: Colors.black)),

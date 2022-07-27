@@ -1,16 +1,14 @@
 # best_movies_ever
 
-A new Flutter project.
+Popular movies from https://www.themoviedb.org/
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+Open a movie details by choosing it from the list or dirctly from url link {URL}/movie-details?id={MOVIE_ID}
 
-A few resources to get you started if this is your first Flutter project:
+## Important
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Use your personal API key:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Key should be in enviremantal file named as **dotenv**
+- File content (variable name) should be **API_KEY={ Your key }**

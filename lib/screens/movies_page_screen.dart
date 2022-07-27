@@ -18,7 +18,6 @@ class MoviesPageScreen extends StatefulWidget {
 class _MoviesPageScreenState extends State<MoviesPageScreen> {
   var _isInit = true;
   var _isLoading = false;
-  var list;
 
   @override
   initState() {
@@ -27,7 +26,6 @@ class _MoviesPageScreenState extends State<MoviesPageScreen> {
 
   @override
   didChangeDependencies() {
-    var theme = Theme.of(context);
     if (_isInit) {
       setState(() {
         _isLoading = true;
@@ -68,7 +66,8 @@ class _MoviesPageScreenState extends State<MoviesPageScreen> {
             ? const Center(
                 child: CircularProgressIndicator(),
               )
-            : const MoviesGridView(),
+            // ignore: prefer_const_constructors
+            : MoviesGridView(),
       ),
     );
   }

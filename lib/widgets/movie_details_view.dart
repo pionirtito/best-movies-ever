@@ -22,12 +22,11 @@ class MovieDetailsView extends StatelessWidget {
     String genreText = genresList.toString();
     genreText = genreText.substring(1, genreText.length - 1);
 
-    print(genres);
     return Center(
         child: Container(
       padding: MediaQuery.of(context).size.width < kSsWidth
-          ? EdgeInsets.all(4.0)
-          : EdgeInsets.all(32.0),
+          ? const EdgeInsets.all(4.0)
+          : const EdgeInsets.all(32.0),
       width: MediaQuery.of(context).size.width < kSsWidth ? null : 500,
       child: ListView(
         shrinkWrap: true,
@@ -36,12 +35,11 @@ class MovieDetailsView extends StatelessWidget {
             clipBehavior: Clip.antiAlias,
             child: Image.network(
               movie.posterPath.toString(),
-              // height: 400,
             ),
           ),
           Card(
             child: ListTile(
-              leading: Icon(
+              leading: const Icon(
                 Icons.title,
                 color: Colors.black,
               ),
@@ -50,7 +48,7 @@ class MovieDetailsView extends StatelessWidget {
           ),
           Card(
             child: ListTile(
-              leading: Icon(
+              leading: const Icon(
                 Icons.theater_comedy,
                 color: Colors.black,
               ),
@@ -59,7 +57,7 @@ class MovieDetailsView extends StatelessWidget {
           ),
           Card(
             child: ListTile(
-              leading: Icon(
+              leading: const Icon(
                 Icons.watch_later_outlined,
                 color: Colors.teal,
               ),
@@ -68,9 +66,9 @@ class MovieDetailsView extends StatelessWidget {
           ),
           Card(
             child: ListTile(
-              leading: Icon(
+              leading: const Icon(
                 Icons.star,
-                color: Colors.orange,
+                color: kColorOrange,
               ),
               title: Text(movie.voteAverage.toString()),
               subtitle: Text('${movie.voteCount} votes'),
@@ -80,7 +78,7 @@ class MovieDetailsView extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 12.0),
               child: ListTile(
-                leading: Icon(
+                leading: const Icon(
                   Icons.description,
                   color: Colors.black,
                 ),

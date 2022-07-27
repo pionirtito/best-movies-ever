@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
 // SCREEN SIZES
-int kSsWidth = 500;
-int klsWidth = 900;
+double kSsWidth = 500;
+double klsWidth = 900;
 
 // TEXT
 String kAppTitle = 'Popular Movies Base';
+double kLetterSpacing = 1.4;
 
 // COLORS
-const Color kColorTeal = Color.fromARGB(255, 72, 88, 109);
+const Color kColorDarkTeal = Color.fromARGB(255, 72, 88, 109);
 const Color kColorOrange = Color.fromARGB(255, 255, 157, 0);
 const Color kColorError = Color.fromARGB(255, 167, 29, 54);
 

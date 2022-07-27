@@ -1,19 +1,12 @@
-import 'package:best_movies_ever/configs/constants.dart';
 import 'package:best_movies_ever/providers/movies_provider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
-
 import '../configs/routes_generator.dart';
 import '../widgets/movie_details_view.dart';
-import '../widgets/movies_grid_view.dart';
 
 class MovieDetailScreen extends StatefulWidget {
-  String? paramID;
-  MovieDetailScreen({this.paramID, Key? key}) : super(key: key);
-  static String routeName = '/movie-details';
+  final String? paramID;
+  const MovieDetailScreen({this.paramID, Key? key}) : super(key: key);
   static String routeNameByIDquery = '/movie-details?id=';
   @override
   State<MovieDetailScreen> createState() => _MovieDetailScreenState();
@@ -24,7 +17,6 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
   bool _isLoading = false;
   String argId = '_';
   String argTitle = 'Movie details';
-  var list;
 
   @override
   initState() {
@@ -69,13 +61,12 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                icon: Icon(Icons.arrow_back_rounded))
+                icon: const Icon(Icons.arrow_back_rounded))
             : IconButton(
                 onPressed: () {
-                  // Navigator.pushReplacementNamed(context, '/');
                   Navigator.pushNamedAndRemoveUntil(context, "/", (r) => false);
                 },
-                icon: Icon(Icons.home_rounded)),
+                icon: const Icon(Icons.home_rounded)),
         title: Text(argTitle),
       ),
       body: Container(

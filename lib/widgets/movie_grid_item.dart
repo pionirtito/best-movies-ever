@@ -25,7 +25,7 @@ late ColorFilter? colorFilter;
 class _MovieGridItemState extends State<MovieGridItem> {
   @override
   void initState() {
-    colorFilter = ColorFilter.mode(Colors.white70, BlendMode.hue);
+    colorFilter = const ColorFilter.mode(Colors.white70, BlendMode.hue);
     super.initState();
   }
 
@@ -34,8 +34,8 @@ class _MovieGridItemState extends State<MovieGridItem> {
     return Container(
       key: Key('${widget.listItem.id}'),
       padding: MediaQuery.of(context).size.width < kSsWidth
-          ? EdgeInsets.all(0.0)
-          : EdgeInsets.all(4.0),
+          ? const EdgeInsets.all(0.0)
+          : const EdgeInsets.all(4.0),
       child: MouseRegion(
         onEnter: ((event) {
           setState(() {
@@ -44,7 +44,7 @@ class _MovieGridItemState extends State<MovieGridItem> {
         }),
         onExit: ((event) {
           setState(() {
-            colorFilter = ColorFilter.mode(Colors.white70, BlendMode.hue);
+            colorFilter = const ColorFilter.mode(Colors.white70, BlendMode.hue);
           });
         }),
         cursor: SystemMouseCursors.click,
@@ -56,7 +56,6 @@ class _MovieGridItemState extends State<MovieGridItem> {
               arguments: <String, dynamic>{
                 'action': 'details',
                 'argId': widget.listItem.id,
-                // 'argTitle': widget.listItem.title
               },
             );
           },
@@ -73,45 +72,49 @@ class _MovieGridItemState extends State<MovieGridItem> {
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                // crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  // SizedBox(height: 0.0),
                   Container(
                     height: 96,
                     width: double.infinity,
                     color: Colors.black54,
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Center(
                       child: Text(
-                        '${widget.listItem.title}',
+                        widget.listItem.title,
                         maxLines: 3,
                         textAlign: TextAlign.center,
                         softWrap: false,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                            fontSize: 16,
+                            letterSpacing: kLetterSpacing,
+                            fontSize:
+                                MediaQuery.of(context).size.width < kSsWidth
+                                    ? 12
+                                    : 16,
                             color: Colors.white,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
-                  // SizedBox(height: 36.0),
                   Container(
                     height: 32,
-                    // width: ,
                     color: Colors.black54,
-                    padding: EdgeInsets.all(2.0),
+                    padding: const EdgeInsets.all(2.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.local_fire_department,
-                          color: Colors.orange,
+                          color: kColorOrange,
                         ),
                         Text(
                           '${widget.listItem.popularity}',
                           style: TextStyle(
-                            fontSize: 16,
+                            letterSpacing: kLetterSpacing,
+                            fontSize:
+                                MediaQuery.of(context).size.width < kSsWidth
+                                    ? 12
+                                    : 16,
                             color: Colors.white,
                           ),
                         )

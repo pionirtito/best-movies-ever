@@ -21,7 +21,7 @@ class Movies with ChangeNotifier {
   String activeId = '';
   late List<Movie> moviesList = [];
   late int totalPages;
-  late int totalResults = 1;
+  late int totalResults;
 
   late String url =
       '$kUrlMovies$kUrlSetKey$_apiKey$kUrlPopSort$kUrlAdult$kUrlLang$kUrlVideo$kUrlSetPage$pageNum$kUrlWatch';
@@ -44,14 +44,14 @@ class Movies with ChangeNotifier {
     totalPages = body['total_pages'];
     totalResults = body['total_results'];
     _resultsList = body['results'];
-    _resultsList.forEach((element) {
+    for (var element in _resultsList) {
       moviesList.add(Movie(
         id: element['id'],
         title: element['title'],
         backdropPath: element['backdrop_path'],
         popularity: '${element['popularity'].toStringAsFixed(1)}',
       ));
-    });
+    }
     isLoading = false;
   }
 

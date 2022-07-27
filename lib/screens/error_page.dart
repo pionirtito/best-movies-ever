@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-
 import '../configs/constants.dart';
 
 class ErrorPageScreen extends StatelessWidget {
@@ -25,13 +22,13 @@ class ErrorPageScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                icon: Icon(Icons.arrow_back_rounded))
+                icon: const Icon(Icons.arrow_back_rounded))
             : IconButton(
                 onPressed: () {
                   // Navigator.pushReplacementNamed(context, '/');
                   Navigator.pushNamedAndRemoveUntil(context, "/", (r) => false);
                 },
-                icon: Icon(Icons.home_rounded)),
+                icon: const Icon(Icons.home_rounded)),
         title: Text(title),
       ),
       body: Center(
