@@ -11,6 +11,7 @@ class Movie with ChangeNotifier {
   final String? posterPath;
   final int? runtime;
   final List? genres;
+  final String? shareLink;
 
   Movie(
       {required this.id,
@@ -22,5 +23,6 @@ class Movie with ChangeNotifier {
       this.backdropPath,
       this.posterPath,
       this.runtime,
-      this.genres});
+      this.genres,
+      this.shareLink});
 }

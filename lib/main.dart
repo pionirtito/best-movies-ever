@@ -29,6 +29,11 @@ class BestMoviesApp extends StatelessWidget {
         theme: ThemeData(
             fontFamily: 'Roboto Mono',
             errorColor: kColorError,
+            textButtonTheme: TextButtonThemeData(
+                style: ButtonStyle(
+              backgroundColor: MaterialStatePropertyAll<Color>(Colors.black87),
+              foregroundColor: MaterialStatePropertyAll<Color>(kColorOrange),
+            )),
             floatingActionButtonTheme: const FloatingActionButtonThemeData(
                 backgroundColor: kColorOrange, foregroundColor: Colors.black),
             primaryColor: kColorDarkTeal,

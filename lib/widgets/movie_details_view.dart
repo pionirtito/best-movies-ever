@@ -1,9 +1,11 @@
 import 'package:best_movies_ever/configs/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../models/movie.dart';
 import '../providers/movies_provider.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class MovieDetailsView extends StatelessWidget {
   const MovieDetailsView({
@@ -85,7 +87,28 @@ class MovieDetailsView extends StatelessWidget {
                 title: Text(movie.overview),
               ),
             ),
-          )
+          ),
+          Card(
+            child: !kIsWeb
+                ? null
+                : ListTile(
+                    leading: const Icon(
+                      Icons.share,
+                      color: Colors.black87,
+                    ),
+                    title: TextButton(
+                      child: Text('Copy link'),
+                      onPressed: () {
+                        Clipboard.setData(
+                            ClipboardData(text: Uri.base.toString()));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Copied to clipborad')),
+                        );
+                      },
+                    ),
+                    // subtitle: Text(Uri.base.toString()),
+                  ),
+          ),
         ],
       ),
     ));

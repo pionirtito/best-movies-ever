@@ -81,7 +81,8 @@ class Movies with ChangeNotifier {
         posterPath: 'https://image.tmdb.org/t/p/w500/${body['poster_path']}',
         voteAverage: '${body['vote_average'].toStringAsFixed(1)}',
         voteCount: body['vote_count'].toString(),
-        genres: body['genres']);
+        genres: body['genres'],
+        shareLink: Uri.base.toString());
 
     activeMovie = movie;
     isLoading = false;

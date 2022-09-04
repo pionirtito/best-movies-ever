@@ -7,7 +7,7 @@ import '../widgets/movie_details_view.dart';
 class MovieDetailScreen extends StatefulWidget {
   final String? paramID;
   const MovieDetailScreen({this.paramID, Key? key}) : super(key: key);
-  static String routeNameByIDquery = '/movie-details?id=';
+  static String routeNameByIDquery = '/movie-details/';
   @override
   State<MovieDetailScreen> createState() => _MovieDetailScreenState();
 }
