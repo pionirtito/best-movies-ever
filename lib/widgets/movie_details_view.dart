@@ -97,12 +97,12 @@ class MovieDetailsView extends StatelessWidget {
                       color: Colors.black87,
                     ),
                     title: TextButton(
-                      child: Text('Copy link'),
+                      child: const Text('Copy link'),
                       onPressed: () {
                         Clipboard.setData(
                             ClipboardData(text: Uri.base.toString()));
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Copied to clipborad')),
+                          const SnackBar(content: Text('Copied to clipborad')),
                         );
                       },
                     ),

@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+
 import 'package:best_movies_ever/configs/constants.dart';
 import 'package:best_movies_ever/providers/movies_provider.dart';
 import 'package:best_movies_ever/widgets/load_more_button.dart';
@@ -7,6 +9,8 @@ import 'package:provider/provider.dart';
 import '../configs/routes_generator.dart';
 import '../providers/grid_items_provider.dart';
 import '../widgets/movies_grid_view.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import '../configs/functions.dart';
 
 class MoviesPageScreen extends StatefulWidget {
   const MoviesPageScreen({Key? key}) : super(key: key);
@@ -55,11 +59,13 @@ class _MoviesPageScreenState extends State<MoviesPageScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String platform =
+        !kIsWeb ? Platform.operatingSystem.toString().capitalize() : 'Web';
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: _isLoading ? null : const LoadMoreButton(),
       appBar: AppBar(
-        title: Text(kAppTitle),
+        title: Text('$kAppTitle on $platform'),
       ),
       body: Container(
         child: _isLoading
